@@ -49,12 +49,14 @@ public class CustomerServiceImpl implements CustomerService {
 
 		for (Driver driver:driverRepository2.findAll()){
 			if (driver.getCab().getAvailable()){
-				status = true;
-				tripStatus = TripStatus.CONFIRMED;
-				driverId = driver.getDriverId();
-				driver1 = driver;
+				if((driver1 == null) || (driver.getDriverId() < driver1.getDriverId())){
+					driver1 = driver;
+					status = true;
+					tripStatus = TripStatus.CONFIRMED;
+					driverId = driver.getDriverId();
+				}
 
-				break;
+//				driver1 = driver;
 			}
 		}
 		if (driver1 == null){
@@ -72,6 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBooking.setCustomer(customerRepository2.findById(customerId).get());
 //		tripBooking.setDriver();  // maybe not needed to set
 		//used this to attributes here coz maight be not initialised
+		driver1.getCab().setAvailable(false); //trip booked so hes not available
 		tripBooking.setDriver(driver1);
 		tripBooking.setStatus(TripStatus.CONFIRMED);
 
@@ -79,9 +82,10 @@ public class CustomerServiceImpl implements CustomerService {
 	Customer customer = customerRepository2.findById(customerId).get();
 		customer.getBookingList().add(tripBooking);
 
+
 //		Driver driver = driverRepository2.getOne(driverId);
 //		driverRepository2.save()
-		tripBookingRepository2.save(tripBooking); // nullpointer
+//		tripBookingRepository2.save(tripBooking); // nullpointer
 		customerRepository2.save(customer);
 		return tripBooking;
 	}
