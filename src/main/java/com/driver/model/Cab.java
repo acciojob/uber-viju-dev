@@ -1,7 +1,5 @@
 package com.driver.model;
 
-import org.apache.tomcat.jni.User;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +10,7 @@ public class Cab {
     private int id;
 
     private int perKmRate;
-    private boolean Available;
+    private boolean available;
 
 
     //mapping Cab -> Driver
@@ -46,9 +44,9 @@ public class Cab {
         this.perKmRate = perKmRate;
     }
 
-    public boolean isAvailable() {
+    public boolean getAvailable() {
         return available;
-    }
+    } //isAvailable
 
     public void setAvailable(boolean available) {
         this.available = available;
@@ -61,4 +59,5 @@ public class Cab {
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
+
 }
