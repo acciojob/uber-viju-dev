@@ -93,11 +93,15 @@ public class CustomerServiceImpl implements CustomerService {
 		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
 				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
+				Customer customer = tripBooking1.getCustomer();
+				customerRepository2.save(customer);
 			}
 		}
 		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
 				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
+				Driver driver = tripBooking1.getDriver();
+				driverRepository2.save(driver);
 			}
 		}
 		tripBookingRepository2.save(tripBooking);
@@ -113,11 +117,15 @@ public class CustomerServiceImpl implements CustomerService {
 		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
 				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
+				Customer customer = tripBooking1.getCustomer();
+				customerRepository2.save(customer);
 			}
 		}
 		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
 				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
+				Driver driver = tripBooking1.getDriver();
+				driverRepository2.save(driver);
 			}
 		}
 		tripBookingRepository2.save(tripBooking);
