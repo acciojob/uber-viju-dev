@@ -90,17 +90,21 @@ public class CustomerServiceImpl implements CustomerService {
 		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		tripBooking.setStatus(TripStatus.CANCELED);
 		//confirm ki personally bhi krna pdega ya automatically ho jayenge changes if main mein kiye
-		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
+		Customer customer = tripBooking.getCustomer();
+		for (TripBooking tripBooking1:customer.getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
-				Customer customer = tripBooking1.getCustomer();
+//				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
+//				Customer customer = tripBooking1.getCustomer();
+				tripBooking1.setStatus(TripStatus.COMPLETED);
 				customerRepository2.save(customer);
 			}
 		}
-		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
+		Driver driver = tripBooking.getDriver();
+		for (TripBooking tripBooking1:driver.getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
-				Driver driver = tripBooking1.getDriver();
+//				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
+//				Driver driver = tripBooking1.getDriver();
+				tripBooking1.setStatus(TripStatus.COMPLETED);
 				driverRepository2.save(driver);
 			}
 		}
@@ -114,17 +118,22 @@ public class CustomerServiceImpl implements CustomerService {
 		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		tripBooking.setStatus(TripStatus.COMPLETED);
 		//confirm ki personally bhi krna pdega ya automatically ho jayenge changes if main mein kiye
-		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
+		Customer customer = tripBooking.getCustomer();
+		for (TripBooking tripBooking1:customer.getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
-				Customer customer = tripBooking1.getCustomer();
+				//tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
+				//ig ye same repo mein save krra
+				tripBooking1.setStatus(TripStatus.COMPLETED);
+				//Customer customer = tripBooking1.getCustomer();
 				customerRepository2.save(customer);
 			}
 		}
-		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
+		Driver driver = tripBooking.getDriver();
+		for (TripBooking tripBooking1:driver.getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
-				Driver driver = tripBooking1.getDriver();
+//				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
+//				Driver driver = tripBooking1.getDriver();
+				tripBooking1.setStatus(TripStatus.COMPLETED);
 				driverRepository2.save(driver);
 			}
 		}
