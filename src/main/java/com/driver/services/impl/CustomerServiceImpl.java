@@ -43,6 +43,23 @@ public class CustomerServiceImpl implements CustomerService {
 		boolean status = false;
 		TripStatus tripStatus ;
 		int driverId ;
+		Driver driver1 = null;
+
+
+
+		for (Driver driver:driverRepository2.findAll()){
+			if (driver.getCab().getAvailable()){
+				status = true;
+				tripStatus = TripStatus.CONFIRMED;
+				driverId = driver.getDriverId();
+				driver1 = driver;
+
+				break;
+			}
+		}
+		if (driver1 == null){
+			throw new RuntimeException("No cab available!");
+		}
 
 		//trip booking
 		TripBooking tripBooking = new TripBooking();
@@ -50,22 +67,14 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBooking.setToLocation(toLocation);
 		tripBooking.setDistanceInKm(distanceInKm);
 //		tripBooking.setStatus(TripStatus.CONFIRMED);
-		tripBooking.setCustomer(customerRepository2.getOne(customerId));
+		tripBooking.setCustomer(customerRepository2.findById(customerId).get();
 //		tripBooking.setDriver();  // maybe not needed to set
+		//used this to attributes here coz maight be not initialised
+		tripBooking.setDriver(driver1);
+		tripBooking.setStatus(TripStatus.CONFIRMED);
 
-		for (Driver driver:driverRepository2.findAll()){
-			if (driver.getCab().getAvailable()){
-				status = true;
-				tripStatus = TripStatus.CONFIRMED;
-				driverId = driver.getDriverId();
-				//used this to attributes here coz maight be not initialised
-				tripBooking.setDriver(driverRepository2.getOne(driverId));
-				tripBooking.setStatus(TripStatus.CONFIRMED);
-				break;
-			}
-		}
 
-	Customer customer = customerRepository2.getOne(customerId);
+	Customer customer = customerRepository2.findById(customerId).get();
 		customer.getBookingList().add(tripBooking);
 
 //		Driver driver = driverRepository2.getOne(driverId);
@@ -78,17 +87,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
-		TripBooking tripBooking = tripBookingRepository2.getOne(tripId);
+		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		tripBooking.setStatus(TripStatus.CANCELED);
 		//confirm ki personally bhi krna pdega ya automatically ho jayenge changes if main mein kiye
 		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.CANCELED);
+				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
 			}
 		}
 		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.CANCELED);
+				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.CANCELED);
 			}
 		}
 		tripBookingRepository2.save(tripBooking);
@@ -98,17 +107,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void completeTrip(Integer tripId){
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
-		TripBooking tripBooking = tripBookingRepository2.getOne(tripId);
+		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
 		tripBooking.setStatus(TripStatus.COMPLETED);
 		//confirm ki personally bhi krna pdega ya automatically ho jayenge changes if main mein kiye
 		for (TripBooking tripBooking1:tripBooking.getCustomer().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.COMPLETED);
+				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
 			}
 		}
 		for (TripBooking tripBooking1:tripBooking.getDriver().getBookingList()){
 			if(tripBooking1.getTripBookingId() == tripId){
-				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.COMPLETED);
+				tripBookingRepository2.findById(tripBooking1.getTripBookingId()).get().setStatus(TripStatus.COMPLETED);
 			}
 		}
 		tripBookingRepository2.save(tripBooking);
