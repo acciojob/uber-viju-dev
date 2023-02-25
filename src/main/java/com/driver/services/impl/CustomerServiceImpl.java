@@ -67,6 +67,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	Customer customer = customerRepository2.getOne(customerId);
 		customer.getBookingList().add(tripBooking);
+
+//		Driver driver = driverRepository2.getOne(driverId);
+//		driverRepository2.save()
+		tripBookingRepository2.save(tripBooking); // nullpointer
 		customerRepository2.save(customer);
 		return tripBooking;
 	}
@@ -87,6 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
 				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.CANCELED);
 			}
 		}
+		tripBookingRepository2.save(tripBooking);
 		return;
 	}
 
@@ -106,6 +111,7 @@ public class CustomerServiceImpl implements CustomerService {
 				tripBookingRepository2.getOne(tripBooking1.getTripBookingId()).setStatus(TripStatus.COMPLETED);
 			}
 		}
+		tripBookingRepository2.save(tripBooking);
 		return;
 	}
 }
