@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBooking.setToLocation(toLocation);
 		tripBooking.setDistanceInKm(distanceInKm);
 //		tripBooking.setStatus(TripStatus.CONFIRMED);
-		tripBooking.setCustomer(customerRepository2.findById(customerId).get();
+		tripBooking.setCustomer(customerRepository2.findById(customerId).get());
 //		tripBooking.setDriver();  // maybe not needed to set
 		//used this to attributes here coz maight be not initialised
 		tripBooking.setDriver(driver1);
