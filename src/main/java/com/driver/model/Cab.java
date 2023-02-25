@@ -12,7 +12,7 @@ public class Cab {
     private int id;
 
     private int perKmRate;
-    private boolean available;
+    private boolean Available;
 
 
     //mapping Cab -> Driver
