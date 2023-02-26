@@ -84,8 +84,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 //		Driver driver = driverRepository2.getOne(driverId);
-//		driverRepository2.save()
+		driver1.getBookingList().add(tripBooking);
+		driverRepository2.save(driver1);
 //		tripBookingRepository2.save(tripBooking); // nullpointer
+
 		customerRepository2.save(customer);
 		return tripBooking;
 	}
